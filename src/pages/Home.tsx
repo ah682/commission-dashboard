@@ -3,7 +3,7 @@ import MonthlyTargets from '../components/MonthlyTargets/MonthlyTargets';
 import QuarterlyTargets from '../components/QuarterlyTargets/QuarterlyTargets';
 import QuarterlyRatios from '../components/QuarterlyRatios/QuarterlyRatios';
 import MonthlyBDActivities from '../components/MonthlyDBActivities/MonthlyDBActivities';
-
+import Leaderboards from '../components/Leaderboards/Leaderboards';
 const Home = () => {
   return (
     <div>
@@ -35,6 +35,11 @@ const Home = () => {
       {/* Monthly Business Development Activites */}
       <div className='mb-8'>
         <MonthlyBDActivities />
+      </div>
+
+      {/* Leaderboards */}
+      <div className='mb-8'>
+        <Leaderboards />
       </div>
 
       {/* Commission Calculator - Centered Below */}
