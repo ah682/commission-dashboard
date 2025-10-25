@@ -1,7 +1,7 @@
 import CommissionCalculator from '../components/CommissionCalculator/CommissionCalculator';
 import MonthlyTargets from '../components/MonthlyTargets/MonthlyTargets';
 import QuarterlyTargets from '../components/QuarterlyTargets/QuarterlyTargets';
-
+import QuarterlyRatios from '../components/QuarterlyRatios/QuarterlyRatios';
 const Home = () => {
   return (
     <div>
@@ -13,6 +13,11 @@ const Home = () => {
         <p className="text-gray-600 text-lg">
           Track your progress and calculate commission earnings in real-time
         </p>
+      </div>
+      
+      {/* Quarterly Conversions & Ratios - Full Width Horizontal */}
+      <div className="mb-8">
+        <QuarterlyRatios/>
       </div>
 
       {/* Monthly Targets - Full Width Horizontal */}
