@@ -1,16 +1,42 @@
+import { useState } from 'react';
 import type { LeaderboardUser } from '../../types/leaderboard';
 
 interface PresidentClubCardProps {
   topUser: LeaderboardUser;
   allUsers: LeaderboardUser[];
+  highlightedUserId?: string;
 }
 
-const PresidentClubCard = ({ topUser, allUsers }: PresidentClubCardProps) => {
-  // Get stats for the top user
+const PresidentClubCard = ({ allUsers, highlightedUserId }: PresidentClubCardProps) => {
+  const [currentIndex, setCurrentIndex] = useState(0);
+  const topUsers = allUsers.slice(0, 5); // Top 5 users
+  const totalUsers = topUsers.length;
+  const currentUser = topUsers[currentIndex];
+
+  const handlePrevUser = () => {
+    setCurrentIndex((prev) => Math.max(0, prev - 1));
+  };
+
+  const handleNextUser = () => {
+    setCurrentIndex((prev) => Math.min(totalUsers - 1, prev + 1));
+  };
+
+  const getPositionSuffix = (position: number): string => {
+    if (position === 1) return 'st';
+    if (position === 2) return 'nd';
+    if (position === 3) return 'rd';
+    return 'th';
+  };
+
+  const isHighlighted = (): boolean => {
+    return currentUser.id === highlightedUserId;
+  };
+
+  // Get stats for the current user (these would ideally come from actual data)
   const userStats = [
-    { label: '1st Interviews Arranged', value: 990, unit: 'pts' },
-    { label: 'Total Placements', value: 633, unit: 'pts' },
-    { label: 'CVs Sent', value: 212, unit: 'pts' },
+    { label: '1st Interviews Arranged', value: 990 - currentIndex * 100, unit: 'pts' },
+    { label: 'Total Placements', value: 633 - currentIndex * 80, unit: 'pts' },
+    { label: 'CVs Sent', value: 212 - currentIndex * 30, unit: 'pts' },
   ];
 
   return (
@@ -20,7 +46,11 @@ const PresidentClubCard = ({ topUser, allUsers }: PresidentClubCardProps) => {
         <div className="flex items-center justify-between mb-4">
           <h3 className="text-lg font-bold text-neutral">President's Club</h3>
           <div className="flex items-center gap-2">
-            <button className="btn btn-ghost btn-sm btn-circle">
+            <button
+              onClick={handlePrevUser}
+              disabled={currentIndex === 0}
+              className="btn btn-ghost btn-sm btn-circle disabled:opacity-30"
+            >
               <svg
                 xmlns="http://www.w3.org/2000/svg"
                 className="h-5 w-5"
@@ -36,8 +66,14 @@ const PresidentClubCard = ({ topUser, allUsers }: PresidentClubCardProps) => {
                 />
               </svg>
             </button>
-            <span className="badge badge-sm">1/5</span>
-            <button className="btn btn-ghost btn-sm btn-circle">
+            <span className="badge badge-sm">
+              {currentIndex + 1}/{totalUsers}
+            </span>
+            <button
+              onClick={handleNextUser}
+              disabled={currentIndex === totalUsers - 1}
+              className="btn btn-ghost btn-sm btn-circle disabled:opacity-30"
+            >
               <svg
                 xmlns="http://www.w3.org/2000/svg"
                 className="h-5 w-5"
@@ -116,28 +152,42 @@ const PresidentClubCard = ({ topUser, allUsers }: PresidentClubCardProps) => {
           {/* Avatar with Medal */}
           <div className="relative mb-4">
             <div className="avatar">
-              <div className="w-24 h-24 rounded-full ring ring-yellow-400 ring-offset-base-100 ring-offset-2">
-                <img src={topUser.avatar} alt={topUser.name} />
+              <div className={`w-24 h-24 rounded-full ring ring-offset-base-100 ring-offset-2 ${
+                isHighlighted() ? 'ring-yellow-600' : 'ring-yellow-400'
+              }`}>
+                <img src={currentUser.avatar} alt={currentUser.name} />
               </div>
             </div>
-            <div className="absolute -bottom-2 -right-2 w-10 h-10 rounded-full bg-yellow-400 flex items-center justify-center text-white font-bold shadow-lg">
-              1
+            <div className={`absolute -bottom-2 -right-2 w-10 h-10 rounded-full flex items-center justify-center text-white font-bold shadow-lg ${
+              currentUser.position === 1 ? 'bg-yellow-400' :
+              currentUser.position === 2 ? 'bg-gray-300' :
+              currentUser.position === 3 ? 'bg-amber-600' :
+              'bg-gray-400'
+            }`}>
+              {currentUser.position}
             </div>
           </div>
 
           {/* Name */}
-          <h4 className="text-xl font-bold text-neutral mb-2">{topUser.name}</h4>
+          <h4 className="text-xl font-bold text-neutral mb-2">
+            {currentUser.name}
+            {isHighlighted() && (
+              <span className="ml-2 text-sm text-amber-700 font-semibold">(You)</span>
+            )}
+          </h4>
 
           {/* Position and Points */}
           <div className="flex items-center gap-6 mb-6">
             <div className="text-center">
               <p className="text-xs text-gray-600 mb-1">Position</p>
-              <p className="text-lg font-bold text-neutral">1st</p>
+              <p className="text-lg font-bold text-neutral">
+                {currentUser.position}{getPositionSuffix(currentUser.position)}
+              </p>
             </div>
             <div className="text-center">
               <p className="text-xs text-gray-600 mb-1">Points</p>
               <p className="text-lg font-bold text-neutral">
-                {topUser.points?.toLocaleString()}
+                {currentUser.points?.toLocaleString()}
               </p>
             </div>
           </div>
