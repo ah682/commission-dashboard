@@ -109,7 +109,7 @@ const SubHeader = () => {
           </div>
 
           {/* Widget Button */}
-          <button className="btn btn-primary btn-sm normal-case font-bold gap-2">
+          <button className="btn btn-primary btn-sm normal-case text-white font-bold gap-2" style={{ backgroundColor: '#4065FF' }}>
             <svg
               xmlns="http://www.w3.org/2000/svg"
               className="h-5 w-5"
