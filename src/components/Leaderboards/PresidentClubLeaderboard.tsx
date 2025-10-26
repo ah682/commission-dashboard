@@ -68,8 +68,7 @@ const PresidentClubLeaderboard = ({ allUsers, highlightedUserId }: PresidentClub
     <div className="card bg-gradient-to-br from-yellow-100 to-yellow-200 shadow-md rounded-lg border border-yellow-300">
       <div className="card-body p-6">
         {/* Header */}
-        <div className="flex items-center justify-between mb-4">
-          <h3 className="text-lg font-bold text-neutral">President's Club</h3>
+        <div className="flex items-center justify-end mb-4">
           <div className="flex items-center gap-2">
             <button
               onClick={handlePrevPage}
