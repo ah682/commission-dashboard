@@ -1,8 +1,11 @@
 import TargetCard from './TargetCard';
+import { useDashboardData } from '../../hooks/useDashboardData';
 
 const MonthlyTargets = () => {
+  const { monthlyTargets } = useDashboardData();
+
   return (
-   <div className="space-y-6">
+    <div className="space-y-6">
       {/* Header */}
       <div className="flex items-center justify-between">
         <div className="flex items-center gap-3">
@@ -40,15 +43,15 @@ const MonthlyTargets = () => {
         </div>
       </div>
 
-      {/* Target Cards Grid - FORCE HORIZONTAL with overflow scroll on mobile */}
+      {/* Target Cards Grid - Horizontal */}
       <div className="overflow-x-auto">
         <div className="flex gap-4 min-w-max lg:grid lg:grid-cols-5 lg:min-w-0">
           {/* Outbound Calls */}
           <div className="w-64 lg:w-auto">
             <TargetCard
               label="Outbound Calls"
-              current={8}
-              target={44}
+              current={monthlyTargets.outboundCalls.current}
+              target={monthlyTargets.outboundCalls.target}
               icon={
                 <svg
                   xmlns="http://www.w3.org/2000/svg"
@@ -73,8 +76,8 @@ const MonthlyTargets = () => {
           <div className="w-64 lg:w-auto">
             <TargetCard
               label="Jobs Added"
-              current={11}
-              target={5}
+              current={monthlyTargets.jobsAdded.current}
+              target={monthlyTargets.jobsAdded.target}
               icon={
                 <svg
                   xmlns="http://www.w3.org/2000/svg"
@@ -99,8 +102,8 @@ const MonthlyTargets = () => {
           <div className="w-64 lg:w-auto">
             <TargetCard
               label="CVs Sent"
-              current={15}
-              target={35}
+              current={monthlyTargets.cvsSent.current}
+              target={monthlyTargets.cvsSent.target}
               icon={
                 <svg
                   xmlns="http://www.w3.org/2000/svg"
@@ -125,8 +128,8 @@ const MonthlyTargets = () => {
           <div className="w-64 lg:w-auto">
             <TargetCard
               label="1st Interviews Arranged"
-              current={7}
-              target={14}
+              current={monthlyTargets.firstInterviews.current}
+              target={monthlyTargets.firstInterviews.target}
               icon={
                 <svg
                   xmlns="http://www.w3.org/2000/svg"
@@ -151,8 +154,8 @@ const MonthlyTargets = () => {
           <div className="w-64 lg:w-auto">
             <TargetCard
               label="Total Revenue Booked"
-              current={16200}
-              target={15000}
+              current={monthlyTargets.totalRevenue.current}
+              target={monthlyTargets.totalRevenue.target}
               unit="£"
               icon={
                 <svg
