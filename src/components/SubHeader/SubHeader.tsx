@@ -1,6 +1,6 @@
 const SubHeader = () => {
   return (
-    <div className="bg-base-100 border-b border-base-300 px-6 py-3">
+    <div className="bg-base-100 border-b border-base-300 px-6 py-4">
       <div className="flex items-center justify-between">
         {/* Left Section */}
         <div className="flex items-center gap-3">
@@ -43,84 +43,93 @@ const SubHeader = () => {
         {/* Right Section */}
         <div className="flex items-center gap-3">
           {/* Period Dropdown */}
-          <div className="flex items-center gap-2">
-            <span className="text-sm text-neutral/70 font-medium">Period:</span>
-            <div className="dropdown dropdown-end">
-              <label tabIndex={0} className="btn btn-sm bg-base-200 border-base-300 normal-case font-semibold gap-2">
-                Default
-                <svg
-                  xmlns="http://www.w3.org/2000/svg"
-                  className="h-4 w-4"
-                  fill="none"
-                  viewBox="0 0 24 24"
-                  stroke="currentColor"
-                >
-                  <path
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                    strokeWidth={2}
-                    d="M19 9l-7 7-7-7"
-                  />
-                </svg>
-              </label>
-              <ul
-                tabIndex={0}
-                className="dropdown-content z-[1] menu p-2 shadow bg-base-100 rounded-box w-52 mt-2"
+          <div className="dropdown dropdown-end">
+            <label 
+              tabIndex={0} 
+              className="btn btn-md bg-white border border-gray-300 hover:bg-gray-50 normal-case font-normal text-neutral gap-4 min-w-[140px] justify-between px-4 h-11"
+            >
+              <div className="flex items-center gap-2">
+                <span className="text-sm text-gray-500">Period:</span>
+                <span className="text-base font-semibold">Default</span>
+              </div>
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                className="h-5 w-5 text-gray-500"
+                fill="none"
+                viewBox="0 0 24 24"
+                stroke="currentColor"
               >
-                <li><a className="font-semibold">Today</a></li>
-                <li><a className="font-semibold">This Week</a></li>
-                <li><a className="font-semibold">This Month</a></li>
-                <li><a className="font-semibold">This Quarter</a></li>
-                <li><a className="font-semibold">This Year</a></li>
-              </ul>
-            </div>
+                <path
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  strokeWidth={2}
+                  d="M19 9l-7 7-7-7"
+                />
+              </svg>
+            </label>
+            <ul
+              tabIndex={0}
+              className="dropdown-content z-[1] menu p-2 shadow-lg bg-white rounded-lg w-52 mt-2 border border-gray-200"
+            >
+              <li><a className="font-semibold text-neutral hover:bg-gray-100">Today</a></li>
+              <li><a className="font-semibold text-neutral hover:bg-gray-100">This Week</a></li>
+              <li><a className="font-semibold text-neutral hover:bg-gray-100">This Month</a></li>
+              <li><a className="font-semibold text-neutral hover:bg-gray-100">This Quarter</a></li>
+              <li><a className="font-semibold text-neutral hover:bg-gray-100">This Year</a></li>
+            </ul>
           </div>
 
           {/* Entity Dropdown */}
-          <div className="flex items-center gap-2">
-            <span className="text-sm text-neutral/70 font-medium">Entity:</span>
-            <div className="dropdown dropdown-end">
-              <label tabIndex={0} className="btn btn-sm bg-base-200 border-base-300 normal-case font-semibold gap-2">
-                Default
-                <svg
-                  xmlns="http://www.w3.org/2000/svg"
-                  className="h-4 w-4"
-                  fill="none"
-                  viewBox="0 0 24 24"
-                  stroke="currentColor"
-                >
-                  <path
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                    strokeWidth={2}
-                    d="M19 9l-7 7-7-7"
-                  />
-                </svg>
-              </label>
-              <ul
-                tabIndex={0}
-                className="dropdown-content z-[1] menu p-2 shadow bg-base-100 rounded-box w-52 mt-2"
+          <div className="dropdown dropdown-end">
+            <label 
+              tabIndex={0} 
+              className="btn btn-md bg-white border border-gray-300 hover:bg-gray-50 normal-case font-normal text-neutral gap-4 min-w-[140px] justify-between px-4 h-11"
+            >
+              <div className="flex items-center gap-2">
+                <span className="text-sm text-gray-500">Entity:</span>
+                <span className="text-base font-semibold">Default</span>
+              </div>
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                className="h-5 w-5 text-gray-500"
+                fill="none"
+                viewBox="0 0 24 24"
+                stroke="currentColor"
               >
-                <li><a className="font-semibold">All Entities</a></li>
-                <li><a className="font-semibold">Entity 1</a></li>
-                <li><a className="font-semibold">Entity 2</a></li>
-              </ul>
-            </div>
+                <path
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  strokeWidth={2}
+                  d="M19 9l-7 7-7-7"
+                />
+              </svg>
+            </label>
+            <ul
+              tabIndex={0}
+              className="dropdown-content z-[1] menu p-2 shadow-lg bg-white rounded-lg w-52 mt-2 border border-gray-200"
+            >
+              <li><a className="font-semibold text-neutral hover:bg-gray-100">All Entities</a></li>
+              <li><a className="font-semibold text-neutral hover:bg-gray-100">Entity 1</a></li>
+              <li><a className="font-semibold text-neutral hover:bg-gray-100">Entity 2</a></li>
+            </ul>
           </div>
 
           {/* Widget Button */}
-          <button className="btn btn-primary btn-sm normal-case text-white font-bold gap-2" style={{ backgroundColor: '#4065FF' }}>
+          <button 
+            className="btn btn-md normal-case text-white font-bold gap-2 border-none hover:opacity-90 shadow-md px-5 h-11 text-base" 
+            style={{ backgroundColor: '#4065FF' }}
+          >
             <svg
               xmlns="http://www.w3.org/2000/svg"
               className="h-5 w-5"
               fill="none"
               viewBox="0 0 24 24"
               stroke="currentColor"
+              strokeWidth={2.5}
             >
               <path
                 strokeLinecap="round"
                 strokeLinejoin="round"
-                strokeWidth={2}
                 d="M12 4v16m8-8H4"
               />
             </svg>
@@ -128,10 +137,10 @@ const SubHeader = () => {
           </button>
 
           {/* Share Icon */}
-          <button className="btn btn-ghost btn-sm btn-square">
+          <button className="btn btn-md btn-square bg-white border border-gray-300 hover:bg-gray-50 h-11 w-11">
             <svg
               xmlns="http://www.w3.org/2000/svg"
-              className="h-5 w-5"
+              className="h-5 w-5 text-gray-600"
               fill="none"
               viewBox="0 0 24 24"
               stroke="currentColor"
@@ -146,10 +155,10 @@ const SubHeader = () => {
           </button>
 
           {/* More Options */}
-          <button className="btn btn-ghost btn-sm btn-square">
+          <button className="btn btn-md btn-square bg-white border border-gray-300 hover:bg-gray-50 h-11 w-11">
             <svg
               xmlns="http://www.w3.org/2000/svg"
-              className="h-5 w-5"
+              className="h-5 w-5 text-gray-600"
               fill="none"
               viewBox="0 0 24 24"
               stroke="currentColor"
