@@ -57,8 +57,8 @@ const Leaderboards = () => {
         <h2 className="text-xl font-bold text-neutral">Leaderboards</h2>
       </div>
 
-      {/* Leaderboards Grid */}
-      <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+      {/* All 3 Leaderboards in One Row - Horizontal */}
+      <div className="grid grid-cols-1 xl:grid-cols-3 gap-6">
         {/* YTD Placements Leaderboard */}
         <LeaderboardCard
           title={ytdLeaderboard.title}
@@ -67,12 +67,14 @@ const Leaderboards = () => {
           showPercentage={true}
         />
 
-        {/* President's Club Spotlight */}
-        <PresidentsClubCard topUser={allUsers[0]} allUsers={allUsers} />
-      </div>
+        {/* President's Club Spotlight - Now with pagination */}
+        <PresidentsClubCard 
+          topUser={allUsers[0]} 
+          allUsers={allUsers}
+          highlightedUserId={currentUserId}
+        />
 
-      {/* President's Club Leaderboard - Full Width */}
-      <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+        {/* President's Club Leaderboard */}
         <PresidentsClubLeaderboard allUsers={allUsers} highlightedUserId={currentUserId} />
       </div>
     </div>
