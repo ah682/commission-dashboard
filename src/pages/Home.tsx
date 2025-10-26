@@ -1,4 +1,6 @@
 import CommissionCalculator from '../components/CommissionCalculator/CommissionCalculator';
+import CommissionScheme from '../components/CommissionScheme/CommissionScheme';
+import CommissionEarnings from '../components/CommissionEarnings/CommissionEarnings';
 import MonthlyTargets from '../components/MonthlyTargets/MonthlyTargets';
 import QuarterlyTargets from '../components/QuarterlyTargets/QuarterlyTargets';
 import QuarterlyRatios from '../components/QuarterlyRatios/QuarterlyRatios';
@@ -15,6 +17,13 @@ const Home = () => {
         <p className="text-gray-600 text-lg">
           Track your progress and calculate commission earnings in real-time
         </p>
+      </div>
+
+      {/* Commission Section */}
+      <div className="grid grid-cols-1 lg:grid-cols-3 gap-6 mb-8">
+        <CommissionEarnings />
+        <CommissionCalculator />
+        <CommissionScheme />
       </div>
 
       {/* Quarterly Conversions & Ratios - Full Width Horizontal */}
@@ -40,24 +49,6 @@ const Home = () => {
       {/* Leaderboards */}
       <div className='mb-8'>
         <Leaderboards />
-      </div>
-
-      {/* Commission Calculator - Centered Below */}
-      <div className="max-w-md mx-auto">
-        <CommissionCalculator />
-      </div>
-
-      {/* Info Section */}
-      <div className="mt-8 p-6 bg-white rounded-lg shadow-md border-l-4 border-primary">
-        <h3 className="text-lg font-semibold text-neutral mb-2">
-          About This Dashboard
-        </h3>
-        <p className="text-gray-600 text-sm leading-relaxed">
-          This dashboard helps you track your monthly and quarterly performance targets
-          and calculate commission earnings in real-time. Monitor your progress across
-          key metrics including revenue goals, jobs added, outbound calls, and business
-          development activities.
-        </p>
       </div>
     </div>
   );
