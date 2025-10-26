@@ -73,9 +73,9 @@ const TargetCard = ({ label, current, target, unit, icon, color }: TargetCardPro
   const percentage = calculateProgress();
   const statusColor = getStatusColor(percentage);
 
-  // Calculate SVG circle properties for progress gauge
+  // Calculate SVG semi-circle properties for progress gauge (180 degrees)
   const radius = 70;
-  const circumference = 2 * Math.PI * radius;
+  const circumference = Math.PI * radius; // Half circle
   const strokeDashoffset = circumference - (percentage / 100) * circumference;
 
   return (
@@ -87,24 +87,18 @@ const TargetCard = ({ label, current, target, unit, icon, color }: TargetCardPro
             {icon}
           </div>
           <div className="flex-1">
-            <h3 className="font-bold text-neutral text-base">
+            <h3 className="font-semibold text-neutral text-sm">
               {label}
             </h3>
+            <p className="text-xs text-gray-500">This Month</p>
           </div>
         </div>
 
-        {/* Period Badge */}
-        <div className="text-center mb-4">
-          <span className="badge badge-sm badge-ghost text-gray-600 font-semibold">
-            This Month
-          </span>
-        </div>
-
-        {/* Current/Target Stats with Indicator */}
+        {/* Current/Target Stats with Badge */}
         <div className="flex items-center justify-center gap-2 mb-4">
           <div className={`badge ${
             percentage >= 100 ? 'badge-success' : percentage >= 50 ? 'badge-warning' : 'badge-error'
-          } badge-sm`}>
+          } badge-sm font-semibold`}>
             {formatValue(current)}
           </div>
           <span className="text-gray-400 text-sm font-semibold">/</span>
@@ -116,25 +110,22 @@ const TargetCard = ({ label, current, target, unit, icon, color }: TargetCardPro
           </span>
         </div>
 
-        {/* Circular Progress Gauge */}
-        <div className="flex justify-center mb-4">
-          <div className="relative w-48 h-48">
-            {/* Background Circle */}
-            <svg className="transform -rotate-90 w-48 h-48">
-              <circle
-                cx="96"
-                cy="96"
-                r={radius}
+        {/* Semi-Circle Progress Gauge */}
+        <div className="flex justify-center mb-2">
+          <div className="relative w-48 h-24">
+            {/* Background Semi-Circle */}
+            <svg className="w-48 h-24 overflow-visible">
+              <path
+                d="M 24 96 A 72 72 0 0 1 168 96"
                 stroke="currentColor"
                 strokeWidth="16"
                 fill="none"
                 className="text-gray-200"
+                strokeLinecap="round"
               />
-              {/* Progress Circle */}
-              <circle
-                cx="96"
-                cy="96"
-                r={radius}
+              {/* Progress Semi-Circle */}
+              <path
+                d="M 24 96 A 72 72 0 0 1 168 96"
                 stroke="currentColor"
                 strokeWidth="16"
                 fill="none"
@@ -152,17 +143,15 @@ const TargetCard = ({ label, current, target, unit, icon, color }: TargetCardPro
             </svg>
 
             {/* Percentage in Center */}
-            <div className="absolute inset-0 flex items-center justify-center">
-              <div className="text-center">
-                <div className={`text-5xl font-bold ${
-                  statusColor === 'success'
-                    ? 'text-success'
-                    : statusColor === 'warning'
-                    ? 'text-warning'
-                    : 'text-error'
-                }`}>
-                  {Math.round(percentage)}%
-                </div>
+            <div className="absolute inset-0 flex items-end justify-center pb-2">
+              <div className={`text-4xl font-bold ${
+                statusColor === 'success'
+                  ? 'text-success'
+                  : statusColor === 'warning'
+                  ? 'text-warning'
+                  : 'text-error'
+              }`}>
+                {Math.round(percentage)}%
               </div>
             </div>
           </div>
