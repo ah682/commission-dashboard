@@ -53,13 +53,6 @@ const PresidentClubLeaderboard = ({ allUsers, highlightedUserId }: PresidentClub
     );
   };
 
-  const getPositionSuffix = (position: number): string => {
-    if (position % 10 === 1 && position !== 11) return 'st';
-    if (position % 10 === 2 && position !== 12) return 'nd';
-    if (position % 10 === 3 && position !== 13) return 'rd';
-    return 'th';
-  };
-
   const isHighlighted = (userId: string): boolean => {
     return userId === highlightedUserId;
   };

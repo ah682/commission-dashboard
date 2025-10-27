@@ -44,12 +44,6 @@ const LeaderboardCard = ({
     );
   };
 
-  const getProgressBarColor = (percentage: number): string => {
-    if (percentage >= 90) return 'bg-success';
-    if (percentage >= 70) return 'bg-warning';
-    return 'bg-error';
-  };
-
   const isHighlighted = (userId: string): boolean => {
     return userId === highlightedUserId;
   };
