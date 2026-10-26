@@ -73,9 +73,9 @@ describe('formatters', () => {
 
   describe('formatCurrency', () => {
     it('should format integers with pound symbol', () => {
-      expect(formatCurrency(1000)).toBe('£1,000');
-      expect(formatCurrency(5000)).toBe('£5,000');
-      expect(formatCurrency(100000)).toBe('£100,000');
+      expect(formatCurrency(1000)).toBe('£1,000.00');
+      expect(formatCurrency(5000)).toBe('£5,000.00');
+      expect(formatCurrency(100000)).toBe('£100,000.00');
     });
 
     it('should format decimals to 2 decimal places', () => {

@@ -1,5 +1,5 @@
 import { describe, it, expect, vi } from 'vitest';
-import { render, screen, waitFor } from '@testing-library/react';
+import { render, screen, waitFor, act } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import '@testing-library/jest-dom';
 import CommissionCalculator from './CommissionCalculator';
@@ -43,7 +43,7 @@ describe('CommissionCalculator', () => {
     });
   });
 
-  it('should show error message for invalid input', async () => {
+  it('should show an error returned by the service', async () => {
     const user = userEvent.setup();
 
     // Mock error response
@@ -55,7 +55,7 @@ describe('CommissionCalculator', () => {
     render(<CommissionCalculator />);
 
     const input = screen.getByLabelText(/revenue amount/i);
-    await user.type(input, '-100');
+    await user.type(input, '100');
 
     await waitFor(() => {
       expect(screen.getByText(/revenue cannot be negative/i)).toBeInTheDocument();
@@ -76,6 +76,22 @@ describe('CommissionCalculator', () => {
     await user.type(input, '1000');
 
     // Should show loading spinner
-    expect(screen.getByRole('status', { hidden: true })).toBeInTheDocument();
+    expect(await screen.findByRole('status')).toHaveAccessibleName('Calculating commission');
   });
+  it('does not restore an obsolete result after the input is cleared', async () => {
+    const user = userEvent.setup();
+    let resolve!: (value: Awaited<ReturnType<typeof commissionService.calculateCommissionAPI>>) => void;
+    vi.mocked(commissionService.calculateCommissionAPI).mockImplementation(() => new Promise((done) => { resolve = done; }));
+    render(<CommissionCalculator />);
+    const input = screen.getByLabelText(/revenue amount/i);
+    await user.type(input, '18000');
+    await waitFor(() => expect(resolve).toBeDefined());
+    await user.clear(input);
+    await act(async () => { resolve({ success: true, data: {
+      totalRevenue: 18000, totalCommission: 1850, breakdown: [], calculatedAt: new Date(),
+    } }); });
+    expect(screen.queryByText('£1,850.00')).not.toBeInTheDocument();
+    expect(screen.getByText(/enter a revenue amount/i)).toBeInTheDocument();
+  });
+
 });

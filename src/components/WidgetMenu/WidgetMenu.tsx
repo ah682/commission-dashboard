@@ -1,5 +1,5 @@
 import { useState, useRef, useEffect } from 'react';
-import { useWidgetConfig } from '../../contexts/WidgetConfigContext';
+import { useWidgetConfig } from '../../contexts/widgetConfigStore';
 import type { WidgetId } from '../../types/widgetConfig.types';
 
 interface WidgetMenuProps {

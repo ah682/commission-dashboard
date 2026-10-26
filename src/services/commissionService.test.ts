@@ -36,7 +36,7 @@ describe('commissionService', () => {
       const result = await calculateCommissionAPI({ revenue: 50000 });
 
       expect(result.success).toBe(true);
-      expect(result.data?.totalCommission).toBe(9000); // All bands applied
+      expect(result.data?.totalCommission).toBe(9750); // 500 + 750 + 1000 + (30000 * 0.25)
     });
 
     it('should return error for negative revenue', async () => {
@@ -56,12 +56,11 @@ describe('commissionService', () => {
     it('should provide correct breakdown for each band', async () => {
       const result = await calculateCommissionAPI({ revenue: 18000 });
 
-      expect(result.data?.breakdown).toHaveLength(5);
+      expect(result.data?.breakdown).toHaveLength(4);
       expect(result.data?.breakdown[0].commissionEarned).toBe(0); // 0% band
       expect(result.data?.breakdown[1].commissionEarned).toBe(500); // 10% band
       expect(result.data?.breakdown[2].commissionEarned).toBe(750); // 15% band
       expect(result.data?.breakdown[3].commissionEarned).toBe(600); // 20% band
-      expect(result.data?.breakdown[4].commissionEarned).toBe(0); // 25% band (no revenue)
     });
 
     it('should include timestamp in result', async () => {

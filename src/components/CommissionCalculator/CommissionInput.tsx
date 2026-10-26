@@ -1,4 +1,5 @@
 import { useCallback } from 'react';
+import { normalizeRevenue } from '../../utils/commissionEngine';
 import { isValidPositiveNumber } from '../../utils/formatters';
 import { CURRENCY_SYMBOL } from '../../constants/commissionScheme';
 
@@ -50,7 +51,8 @@ const CommissionInput = ({
     // Format to 2 decimal places on blur
     const numValue = parseFloat(value);
     if (!isNaN(numValue)) {
-      onChange(numValue.toFixed(2));
+      try { onChange(normalizeRevenue(numValue).toFixed(2)); }
+      catch { /* Keep the input so the service can display its range error. */ }
     }
   }, [value, onChange]);
 
@@ -85,7 +87,7 @@ const CommissionInput = ({
 
         {/* Loading Indicator */}
         {isCalculating && (
-          <span className="absolute right-4 top-1/2 -translate-y-1/2">
+          <span role="status" aria-label="Calculating commission" className="absolute right-4 top-1/2 -translate-y-1/2">
             <span className="loading loading-spinner loading-sm text-primary"></span>
           </span>
         )}

@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { useWidgetConfig } from '../../contexts/WidgetConfigContext';
+import { useWidgetConfig } from '../../contexts/widgetConfigStore';
 import type { WidgetId } from '../../types/widgetConfig.types';
 
 interface WidgetConfigModalProps {

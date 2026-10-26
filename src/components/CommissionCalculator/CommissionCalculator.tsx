@@ -1,4 +1,4 @@
-import { useState, useEffect, useCallback } from 'react';
+import { useState, useEffect } from 'react';
 import type { CommissionCalculationResult } from '../../types/commission.types';
 import { calculateCommissionAPI } from '../../services/commissionService';
 import { parseInputValue } from '../../utils/formatters';
@@ -17,47 +17,34 @@ const CommissionCalculator = () => {
   const [isCalculating, setIsCalculating] = useState<boolean>(false);
   const [error, setError] = useState<string | null>(null);
 
-  /**
-   * Debounced calculation function
-   */
-  const calculateCommission = useCallback(async (revenue: number) => {
-    if (revenue <= 0) {
-      setCalculationResult(null);
-      setError(null);
-      return;
-    }
-
-    setIsCalculating(true);
-    setError(null);
-
-    try {
-      const response = await calculateCommissionAPI({ revenue });
-
-      if (response.success && response.data) {
-        setCalculationResult(response.data);
-      } else {
-        setError(response.error || 'Failed to calculate commission');
-        setCalculationResult(null);
-      }
-    } catch (err) {
-      setError('An unexpected error occurred');
-      setCalculationResult(null);
-    } finally {
-      setIsCalculating(false);
-    }
-  }, []);
-
-  /**
-   * Effect to trigger calculation when input changes (with debounce)
-   */
+  // Each input owns its request. Cleanup prevents an older response from
+  // replacing the result after editing, clearing or unmounting the widget.
   useEffect(() => {
-    const timeoutId = setTimeout(() => {
-      const revenue = parseInputValue(revenueInput);
-      calculateCommission(revenue);
-    }, 400); // 400ms debounce
+    let cancelled = false;
+    const revenue = parseInputValue(revenueInput);
+    setCalculationResult(null);
+    setError(null);
+    setIsCalculating(false);
+    if (revenue <= 0) return;
 
-    return () => clearTimeout(timeoutId);
-  }, [revenueInput, calculateCommission]);
+    const timeoutId = setTimeout(async () => {
+      setIsCalculating(true);
+      try {
+        const response = await calculateCommissionAPI({ revenue });
+        if (cancelled) return;
+        if (response.success && response.data) {
+          setCalculationResult(response.data);
+        } else {
+          setError(response.error || 'Failed to calculate commission');
+        }
+      } catch {
+        if (!cancelled) setError('An unexpected error occurred');
+      } finally {
+        if (!cancelled) setIsCalculating(false);
+      }
+    }, 400);
+    return () => { cancelled = true; clearTimeout(timeoutId); };
+  }, [revenueInput]);
 
   /**
    * Handles input change with validation

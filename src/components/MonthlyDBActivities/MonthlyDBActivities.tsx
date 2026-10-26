@@ -1,5 +1,5 @@
 import ActivityCard from './ActivityCard';
-import { useWidgetConfig } from '../../contexts/WidgetConfigContext';
+import { useWidgetConfig } from '../../contexts/widgetConfigStore';
 import WidgetMenu from '../WidgetMenu/WidgetMenu';
 
 const MonthlyBDActivities = () => {
