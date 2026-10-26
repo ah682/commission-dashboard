@@ -2,9 +2,8 @@ import type {
   CalculateCommissionRequest,
   CalculateCommissionResponse,
   CommissionCalculationResult,
-  CommissionBandBreakdown,
 } from '../types/commission.types';
-import { COMMISSION_SCHEME } from '../constants/commissionScheme';
+import { calculateCommissionAmounts } from '../utils/commissionEngine';
 
 /**
  * Simulated API delay to mimic real backend behavior
@@ -22,51 +21,7 @@ const API_DELAY_MS = 300;
  * @returns Commission calculation result with breakdown
  */
 const calculateCommission = (revenue: number): CommissionCalculationResult => {
-  if (revenue < 0) {
-    throw new Error('Revenue cannot be negative');
-  }
-
-  if (!isFinite(revenue)) {
-    throw new Error('Revenue must be a valid number');
-  }
-
-  const breakdown: CommissionBandBreakdown[] = [];
-  let totalCommission = 0;
-  let remainingRevenue = revenue;
-
-  // Process each band in order
-  for (const band of COMMISSION_SCHEME) {
-    if (remainingRevenue <= 0) break;
-
-    // Calculate the size of this band
-    const bandSize = band.max === null 
-      ? Infinity 
-      : band.max - band.min;
-
-    // Determine how much revenue falls in this band
-    const revenueInBand = Math.min(remainingRevenue, bandSize);
-
-    // Calculate commission for this band
-    const commissionEarned = revenueInBand * band.rate;
-
-    // Add to breakdown
-    breakdown.push({
-      band,
-      revenueInBand,
-      commissionEarned,
-    });
-
-    // Update totals
-    totalCommission += commissionEarned;
-    remainingRevenue -= revenueInBand;
-  }
-
-  return {
-    totalRevenue: revenue,
-    totalCommission,
-    breakdown,
-    calculatedAt: new Date(),
-  };
+  return { ...calculateCommissionAmounts(revenue), calculatedAt: new Date() };
 };
 
 /**
@@ -85,28 +40,6 @@ export const calculateCommissionAPI = async (
   await new Promise((resolve) => setTimeout(resolve, API_DELAY_MS));
 
   try {
-    // Validate input
-    if (typeof request.revenue !== 'number') {
-      return {
-        success: false,
-        error: 'Revenue must be a number',
-      };
-    }
-
-    if (request.revenue < 0) {
-      return {
-        success: false,
-        error: 'Revenue cannot be negative',
-      };
-    }
-
-    if (!isFinite(request.revenue)) {
-      return {
-        success: false,
-        error: 'Revenue must be a valid number',
-      };
-    }
-
     // Calculate commission
     const result = calculateCommission(request.revenue);
 

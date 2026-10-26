@@ -1,5 +1,5 @@
 import QuarterlyTargetCard from './QuarterlyTargetCard';
-import { useWidgetConfig } from '../../contexts/WidgetConfigContext';
+import { useWidgetConfig } from '../../contexts/widgetConfigStore';
 import WidgetMenu from '../WidgetMenu/WidgetMenu';
 
 const QuarterlyTargets = () => {

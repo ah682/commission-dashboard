@@ -1,7 +1,9 @@
 import { describe, it, expect, beforeEach, afterEach, vi } from 'vitest';
 import { renderHook, act } from '@testing-library/react';
 import type { ReactNode } from 'react';
-import { WidgetConfigProvider, useWidgetConfig } from '../WidgetConfigContext';
+import { WidgetConfigProvider } from '../WidgetConfigContext';
+import { useWidgetConfig } from '../widgetConfigStore';
+import type { WidgetId } from '../../types/widgetConfig.types';
 
 // Mock localStorage
 const localStorageMock = (() => {
@@ -125,7 +127,7 @@ describe('WidgetConfigContext', () => {
       const { result } = renderHook(() => useWidgetConfig(), { wrapper });
 
       act(() => {
-        result.current.toggleCardVisibility('non-existent' as any, 'some-card');
+        result.current.toggleCardVisibility('non-existent' as WidgetId, 'some-card');
       });
 
       // Should not throw error
@@ -197,7 +199,7 @@ describe('WidgetConfigContext', () => {
     it('should return undefined for non-existent widget', () => {
       const { result } = renderHook(() => useWidgetConfig(), { wrapper });
 
-      const widgetConfig = result.current.getWidgetConfig('non-existent' as any);
+      const widgetConfig = result.current.getWidgetConfig('non-existent' as WidgetId);
 
       expect(widgetConfig).toBeUndefined();
     });

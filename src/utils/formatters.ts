@@ -36,8 +36,10 @@ export const formatCurrency = (
  * @param decimals - Number of decimal places
  * @returns Formatted percentage string
  */
-export const formatPercentage = (rate: number, decimals: number = 0): string => {
-  return `${(rate * 100).toFixed(decimals)}%`;
+export const formatPercentage = (rate: number, decimals?: number): string => {
+  return new Intl.NumberFormat('en-GB', {
+    style: 'percent', minimumFractionDigits: decimals ?? 0, maximumFractionDigits: decimals ?? 1,
+  }).format(rate);
 };
 
 /**
@@ -46,9 +48,7 @@ export const formatPercentage = (rate: number, decimals: number = 0): string => 
  * @returns True if valid, false otherwise
  */
 export const isValidPositiveNumber = (value: string): boolean => {
-  if (value === '') return true; // Allow empty for clearing
-  const num = parseFloat(value);
-  return !isNaN(num) && num >= 0 && isFinite(num);
+  return /^(?:\d+\.?\d*|\.\d+)$/.test(value) && Number.isFinite(Number(value));
 };
 
 /**
@@ -57,7 +57,6 @@ export const isValidPositiveNumber = (value: string): boolean => {
  * @returns Parsed number or 0 if invalid
  */
 export const parseInputValue = (value: string): number => {
-  if (value === '' || value === null || value === undefined) return 0;
-  const num = parseFloat(value);
-  return isNaN(num) ? 0 : num;
+  const input = value?.trim() ?? '';
+  return isValidPositiveNumber(input) ? Number(input) : 0;
 };

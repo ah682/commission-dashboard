@@ -102,6 +102,6 @@ describe('CommissionEarnings', () => {
 
     render(<CommissionEarnings />);
 
-    expect(screen.getByText(/£0/i)).toBeInTheDocument();
+    expect(screen.getByText('£0', { exact: true })).toBeInTheDocument();
   });
 });

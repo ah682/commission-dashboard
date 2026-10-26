@@ -1,6 +1,6 @@
 import RatioCard from './RatioCard';
 import { useDashboardData } from '../../hooks/useDashboardData';
-import { useWidgetConfig } from '../../contexts/WidgetConfigContext';
+import { useWidgetConfig } from '../../contexts/widgetConfigStore';
 import WidgetMenu from '../WidgetMenu/WidgetMenu';
 
 const QuarterlyRatios = () => {
