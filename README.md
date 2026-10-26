@@ -1,6 +1,10 @@
-# Recruiter commission dashboard
+# Recruiter Commission Dashboard
 
-A React 19 and TypeScript dashboard demo with configurable widgets and a progressive commission calculator. Recruitment metrics and leaderboards are sample data. The “API” is an asynchronous local function with a simulated delay; there is no live CRM, authentication, payroll integration or backend.
+A dashboard for recruiter targets, activity, conversion ratios and commission earnings, built with React 19, TypeScript, Vite and Tailwind CSS.
+
+Monthly and quarterly widgets show calls, jobs, CVs, interviews and revenue. Team leaderboards include placements and President's Club rankings. Use the **Widgets** button or a section's **⋮** menu to choose what appears; your preferences are saved in this browser.
+
+The dashboard uses sample recruitment data and a local service that simulates an API response. The commission calculator works with the revenue you enter.
 
 ## Run locally
 
@@ -13,9 +17,9 @@ npm ci
 npm run dev
 ```
 
-Open the localhost URL printed by Vite. `npm run build` creates `dist/`; `npm run preview` previews that build. Keep the development server local.
+Open the localhost URL printed by Vite. `npm run build` creates `dist/`; `npm run preview` previews that build.
 
-## Commission contract
+## How commission is calculated
 
 Each rate applies only to revenue inside that band:
 
@@ -27,11 +31,11 @@ Each rate applies only to revenue inside that band:
 | £15,000–£20,000 | 20% |
 | Above £20,000 | 25% |
 
-Revenue must be a finite, non-negative number within the supported safe-integer penny range. The engine rounds the input's decimal representation to pennies, rounds each band's commission half-up to a penny, and sums those rounded bands using integer arithmetic. Both dashboard earnings and the simulated API use that engine. This is the demo's explicit rounding policy, not a claim about any employer's payroll policy.
+Revenue must be a finite, non-negative number within the supported safe-integer penny range. The engine rounds revenue to pennies, rounds each band's commission half-up to a penny, then adds the rounded bands using integer arithmetic. Dashboard earnings and the simulated API use the same calculation.
 
-Examples: £18,000 earns £1,850; £50,000 earns £9,750; £5,000.05 earns £0.01. Empty input clears the result. An obsolete asynchronous response cannot restore a result after editing or clearing the input.
+For example, £18,000 earns £1,850; £50,000 earns £9,750; £5,000.05 earns £0.01. Clearing the input clears the result, and responses from earlier calculations are ignored after you edit it.
 
-## Verify
+## Development checks
 
 ```sh
 npm run lint
@@ -40,15 +44,15 @@ npm run build
 npm audit --audit-level=high
 ```
 
-Tests cover hand-calculated tier boundaries, fractional pennies, invalid values, shared API/dashboard results, loading/error states, stale responses, formatting and persisted widget preferences. Coverage is measured on each run and written to `coverage/`; no target percentage is inferred from the number of tests. GitHub Actions runs the commands above on pushes and pull requests.
+Tests cover band boundaries, fractional pennies, invalid values, shared API/dashboard results, loading and error states, stale responses, formatting and saved widget preferences. Coverage reports are written to `coverage/`. GitHub Actions runs the commands above on pushes and pull requests.
 
-The 26 October dependency refresh stays within the existing major versions. The known remaining advisory is a moderate build-time denial of service in Tailwind 3's `postcss-selector-parser` dependency ([GHSA-rj75-hqrm-r3gf](https://github.com/advisories/GHSA-rj75-hqrm-r3gf)). It processes project CSS during builds. Do not feed untrusted selectors to the build pipeline; a Tailwind migration needs its own visual review. No high or critical advisories were reported in the refreshed installation on that date. Recheck with the audit command as advisories change.
+The 26 October 2026 dependency audit found no high or critical advisories. A moderate build-time denial-of-service advisory remains in Tailwind 3's `postcss-selector-parser` dependency ([GHSA-rj75-hqrm-r3gf](https://github.com/advisories/GHSA-rj75-hqrm-r3gf)); keep untrusted CSS selectors out of the build pipeline. Run the audit command to check the latest status.
 
 ## Structure and contributions
 
-`src/utils/commissionEngine.ts` owns validation and monetary arithmetic. `services/commissionService.ts` adapts it to the simulated API; `utils/commissionCalculator.ts` adapts it to the earnings widget. `components/` contains UI, and `contexts/` stores widget preferences in localStorage.
+`src/utils/commissionEngine.ts` owns validation and monetary arithmetic. `src/services/commissionService.ts` adapts it to the simulated API; `src/utils/commissionCalculator.ts` adapts it to the earnings widget. UI components live in `src/components/`, and `src/contexts/` stores widget preferences in localStorage.
 
-For a calculation bug, report the revenue, expected band breakdown and actual output. Include a regression case when changing the calculation contract. UI changes should preserve keyboard access and be checked at desktop and mobile widths. Dashboard preferences stay in this browser; they are not synced to an account.
+For a calculation bug, report the revenue, expected band breakdown and actual output. Include a regression case when changing the calculation. Check UI changes with a keyboard and at desktop and mobile widths.
 
 ## Licence
 
